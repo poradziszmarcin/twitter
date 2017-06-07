@@ -1,0 +1,15 @@
+{
+    "name": "twitter",
+    "authors": [
+        {
+            "name": "Marcin Poradzisz",
+            "email": "poradziszmarcin@outlook.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Twitter\\": "src"
+        }
+    },
+    "require": {}
+}

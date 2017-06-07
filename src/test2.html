@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <form method="POST" action="test222.php">
+    POST
+     <br>
+     <input name="comment" value="delete" type="hidden">
+     <input type="text" name="test1"><br>
+     <input type="text" name="test2"><br>
+     <input type="submit">
+
+ </form>
+<hr>
+ <form method="GET" action="base.php">
+     <input name="user" value="view" type="hidden">
+     <input name="id" value="21" type="hidden">
+   GET  <input type="submit" value="test">
+<br>
+     <a href="base.php?user=login">zaloguj</a>
+ <br>
+     <a href="base.php?user=create">utworz konto</a>
+</body>
+
+</html>
