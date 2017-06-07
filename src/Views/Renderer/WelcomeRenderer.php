@@ -11,8 +11,6 @@ namespace Twitter\Views\Renderer;
 
 
 use Twitter\Controller\Base\BaseWelcomeController;
-use Twitter\Views\Renderer\MenuRenderer;
-use Twitter\Views\Renderer\ContentRenderer;
 use Twitter\Controller\Base\BaseController;
 
 class WelcomeRenderer
@@ -41,8 +39,6 @@ class WelcomeRenderer
         echo "</div>";
         $menuRenderer = new MenuRenderer();
         $menuRenderer->render();
-        $contentRenderer = new ContentRenderer();
-        $contentRenderer->render();
         $controller = new BaseController();
         $controller->getInput();
     }

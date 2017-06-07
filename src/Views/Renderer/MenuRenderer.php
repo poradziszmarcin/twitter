@@ -20,7 +20,7 @@ class MenuRenderer implements RenderInterface
     <nav>
         <ul>
             <li><a href="index.php?user=main">Strona glowna</a></li>
-            <li><a >Przycisk 2</a></li>
+            <li><a href="index.php?user=info" >Konto</a></li>
             <li><a >Przycisk 3</a></li>
             <li><a href="index.php?user=logout">Wyloguj sie</a></li>
         </nav>

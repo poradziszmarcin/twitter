@@ -29,7 +29,7 @@ class UserAddForm implements RenderInterface
              <br>
              <label>
                 Haslo:
-                <input type="password" name ="password">  <br>
+                <input type="password" name ="password" class="password">  <br>
                 Powtorz haslo:
                 <input type="password" name ="password1">
                 <input name="user" value="add" type="hidden">

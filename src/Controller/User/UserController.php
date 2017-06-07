@@ -9,14 +9,17 @@
 namespace Twitter\Controller\User;
 
 use Twitter\Controller\ClassesInterface;
-use Twitter\Model\DBase\DBConnect;
 use Twitter\Views\Form\UserAddForm;
 use Twitter\Model\Classes\User;
 use Twitter\Model\DBase\UserDB;
 use Twitter\Model\Verification\UserVerify;
 use Twitter\Views\Form\LoginForm;
 use Twitter\Model\DBase\TweetDB;
+use Twitter\Views\Form\UserEditForm;
+use Twitter\Views\Form\UserSearchForm;
 use Twitter\Views\Renderer\Tweet\TweetRenderer;
+use Twitter\Views\Renderer\User\UserInfoRenderer;
+use Twitter\Views\Renderer\User\UserMenuRenderer;
 
 class UserController implements ClassesInterface
 
@@ -41,26 +44,19 @@ class UserController implements ClassesInterface
                 case "login":
                     $form = new LoginForm();
                     $form->render();
-
                     break;
 
-                case "edit":
-                    if (isset($_GET["id"]) == true) {
-                        //funkcja zwraca - gdy jest to tekst;
-                        $id = (int)trim($_GET["id"]);
-                        var_dump($id);
+                case "editpassword":
 
-                        if ($id != 0) {
-                            echo "edit user";
-                        } else {
-                            echo "invalid id number";
-                        }
-                    }
+                    $userMenuRenderer = new UserMenuRenderer();
+                    $userMenuRenderer->render();
+                    $userEditFormRenderer = new UserEditForm();
+                    $userEditFormRenderer->render();
                     break;
 
                 case "view":
                     if (isset($_GET["id"]) == true) {
-                        //funkcja zwraca - gdy jest to tekst;
+
                         $id = (int)trim($_GET["id"]);
 
 
@@ -74,77 +70,103 @@ class UserController implements ClassesInterface
 
                         }
                     }
-                        break;
+                    break;
                 case "main":
                     $userId = $_COOKIE["userId"];
                     header('Location: ' . "index.php?user=view&id=" . $userId);
                     break;
 
-                    default:
-                        echo "invalid method";
-                        break;
-                    }
+                case "info":
+                    UserVerify::verifyOperations();
+                    $userMenuRenderer = new UserMenuRenderer();
+                    $userMenuRenderer->render();
+                    $userInfoRenderer = new UserInfoRenderer();
+                    $userInfoRenderer->render();
+
+                    break;
+
+                case "search":
+                    $searchForm = new UserSearchForm();
+                    $searchForm->render();
+                default:
+                    echo "invalid method";
+                    break;
             }
+
         }
+    }
 
-        public
-        function postMethod()
-        {
-            if (isset($_POST["user"]) == true) {
-                $userPost = trim($_POST["user"]);
+    public
+    function postMethod()
+    {
+        if (isset($_POST["user"]) == true) {
+            $userPost = trim($_POST["user"]);
 
 
-                switch ($userPost) {
+            switch ($userPost) {
 
-                    case "edit":
-                        echo "edit user";
-                        break;
+                case "editpassword":
+                    UserVerify::verifyOperations();
+                    if ($_POST["password"] == $_POST["password1"]) {
+                        $id = $_COOKIE["userId"];
+                        $password = sha1(trim($_POST["password"]));
+                          $userDB = new UserDB();
+                          $userDB->editPassword($id,$password);
+                          echo "haslo zostalo zmienione";
 
-                    case "delete":
-                        echo "delete user";
-                        break;
 
-                    case "add":
-                        if ($_POST["password"]==$_POST["password1"]) {
-                            $name = trim($_POST["name"]);
-                            $email = trim($_POST["email"]);
-                            $password = trim($_POST["password"]);
-                            $user = new User($name, $email, $password);
-                            $user->setUserCode(sha1(mktime()));
-                            $userDB = new UserDB();
-                            $id = $userDB->add($user);
-                            $user->setId($id);
-                            if (is_null($id) == false) {
-                                userVerify::login($user);
-                            }
+
                         }
-                        else {
-                            echo "hasla nie sa identyczne";
-                        }
-                        break;
-                    case "login":
-                        $userDB = new UserDB();
-                        $password = ($_POST["password"]);
+                     else {
+                        echo "hasla nie sa identyczne";
+                    }
+                    break;
 
+                case "delete":
+                    echo "delete user";
+                    break;
+
+                case "add":
+                    if ($_POST["password"] == $_POST["password1"]) {
+                        $name = trim($_POST["name"]);
                         $email = trim($_POST["email"]);
-                        $userFromDB = $userDB->login($email);
-
-
-                        if ($userFromDB != null && $userFromDB["email"] == $email && $userFromDB["password"] == sha1($password)) {
-                            $user = new User($userFromDB["name"], $userFromDB["email"], $password);
-                            $user->setId($userFromDB["id"]);
-                            $user->setUserCode($userFromDB["userCode"]);
-                            UserVerify::login($user);
+                        $password = trim($_POST["password"]);
+                        $user = new User($name, $email, $password);
+                        $user->setUserCode(sha1(mktime()));
+                        $userDB = new UserDB();
+                        $id = $userDB->add($user);
+                        $user->setId($id);
+                        if (is_null($id) == false) {
+                            userVerify::login($user);
                             header('Location: ' . "index.php?user=main");
-                        } else {
-                            echo "niepoprawny login lub haslo";
                         }
+                    } else {
+                        echo "hasla nie sa identyczne";
+                    }
+                    break;
+                case "login":
+                    $userDB = new UserDB();
+                    $password = ($_POST["password"]);
 
-                        break;
-                    default:
+                    $email = trim($_POST["email"]);
+                    $userFromDB = $userDB->login($email);
 
-                        echo "wrong user input";
-                }
+
+                    if ($userFromDB != null && $userFromDB["email"] == $email && $userFromDB["password"] == sha1($password)) {
+                        $user = new User($userFromDB["name"], $userFromDB["email"], $password);
+                        $user->setId($userFromDB["id"]);
+                        $user->setUserCode($userFromDB["userCode"]);
+                        UserVerify::login($user);
+                        header('Location: ' . "index.php?user=main");
+                    } else {
+                        echo "niepoprawny login lub haslo";
+                    }
+
+                    break;
+                default:
+
+                    echo "wrong user input";
             }
         }
     }
+}

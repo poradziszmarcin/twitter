@@ -34,9 +34,19 @@ class UserDB
 
   }
 
-  public function edit ()
+  public function editPassword ($id,$password)
   {
+      $db = DBConnect::open();
+      $sql = 'UPDATE users SET  
+            password= :password
+              WHERE id=:id';
 
+      $stm =$db->prepare($sql);
+
+      $stm->bindValue(":id","$id");
+      $stm->bindValue(":password","$password");
+      $stm->execute();
+      $result = $stm->fetch();
   }
 
   public function delete ()
@@ -67,7 +77,7 @@ class UserDB
 
         $stm->bindValue(":email","$email");
         $stm->execute();
-//        $stm->execute(array("marcin@test.pl"));
+
         $result = $stm->fetch();
         DBConnect::Close();
         return $result;
@@ -82,7 +92,20 @@ class UserDB
 
         $stm->bindValue(":id","$id");
         $stm->execute();
-//        $stm->execute(array("marcin@test.pl"));
+        $result = $stm->fetch();
+        DBConnect::Close();
+        return $result;
+    }
+
+    public function getInfoByID($id)
+    {
+        $db = DBConnect::open();
+        $sql = 'SELECT name ,email FROM user WHERE id=:id';
+
+        $stm =$db->prepare($sql);
+
+        $stm->bindValue(":id","$id");
+        $stm->execute();
         $result = $stm->fetch();
         DBConnect::Close();
         return $result;

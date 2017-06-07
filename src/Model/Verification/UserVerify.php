@@ -91,6 +91,6 @@ class UserVerify
         setcookie("userId", $user->getId(), time() + 3600);
         setcookie("userName", $user->getName(), time() + 3600);
         setcookie("userCode", $user->getUserCode(), time() + 3600);
-        echo "zostales zalogowany";
+
     }
 }
