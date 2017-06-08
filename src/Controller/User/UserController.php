@@ -20,6 +20,7 @@ use Twitter\Views\Form\UserSearchForm;
 use Twitter\Views\Renderer\Tweet\TweetRenderer;
 use Twitter\Views\Renderer\User\UserInfoRenderer;
 use Twitter\Views\Renderer\User\UserMenuRenderer;
+use Twitter\Views\Form\TweetAddForm;
 
 class UserController implements ClassesInterface
 
@@ -73,7 +74,14 @@ class UserController implements ClassesInterface
                     break;
                 case "main":
                     $userId = $_COOKIE["userId"];
-                    header('Location: ' . "index.php?user=view&id=" . $userId);
+                    $tweetDB = new TweetDB();
+                    $tweets = $tweetDB->loadByUserID($userId);
+                    $tweetForm = new TweetAddForm();
+                    $tweetForm->render();
+                    $tweetRenderer = new TweetRenderer();
+                    $tweetRenderer->render($tweets);
+//                    header('Location: ' . "index.php?user=view&id=" . $userId);
+
                     break;
 
                 case "info":
@@ -88,6 +96,9 @@ class UserController implements ClassesInterface
                 case "search":
                     $searchForm = new UserSearchForm();
                     $searchForm->render();
+                    $userSearch = new UserSearchController();
+                    $userSearch->getMethod();
+                    break;
                 default:
                     echo "invalid method";
                     break;
@@ -108,7 +119,7 @@ class UserController implements ClassesInterface
                 case "editpassword":
                     UserVerify::verifyOperations();
                     if ($_POST["password"] == $_POST["password1"]) {
-                        $id = $_COOKIE["userId"];
+                        $id = trim( $_COOKIE["userId"]);
                         $password = sha1(trim($_POST["password"]));
                           $userDB = new UserDB();
                           $userDB->editPassword($id,$password);

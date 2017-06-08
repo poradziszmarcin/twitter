@@ -5,24 +5,21 @@
     <title>Title</title>
 </head>
 <body>
- <form method="POST" action="test222.php">
-    POST
-     <br>
-     <input name="comment" value="delete" type="hidden">
-     <input type="text" name="test1"><br>
-     <input type="text" name="test2"><br>
-     <input type="submit">
+<form action="test222.php" method="get">
+    <input name="user" value="search" type="hidden" >
+    <input type="text" name="searchInput">
+    <br>
+    <label>Nazwa
+            <input type="radio" name="searchBy" value="name">
+    </label>
+    <label>
+        Email
+        <input type="radio" name="searchBy" value="email">
 
- </form>
-<hr>
- <form method="GET" action="base.php">
-     <input name="user" value="view" type="hidden">
-     <input name="id" value="21" type="hidden">
-   GET  <input type="submit" value="test">
-<br>
-     <a href="base.php?user=login">zaloguj</a>
- <br>
-     <a href="base.php?user=create">utworz konto</a>
+    </label>
+    <br>
+    <input type="submit" value="szukaj">
+</form>
+
 </body>
-
 </html>

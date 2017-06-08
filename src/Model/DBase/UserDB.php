@@ -37,7 +37,7 @@ class UserDB
   public function editPassword ($id,$password)
   {
       $db = DBConnect::open();
-      $sql = 'UPDATE users SET  
+      $sql = 'UPDATE user SET  
             password= :password
               WHERE id=:id';
 
@@ -107,6 +107,35 @@ class UserDB
         $stm->bindValue(":id","$id");
         $stm->execute();
         $result = $stm->fetch();
+        DBConnect::Close();
+        return $result;
+    }
+
+    public function searchByName($name)
+    {
+        $db = DBConnect::open();
+        $sql = 'SELECT id ,name ,email FROM user WHERE name LIKE :name';
+
+        $stm =$db->prepare($sql);
+
+        $stm->bindValue(":name",$name);
+        $stm->execute();
+        $result = $stm->fetchAll();
+        DBConnect::Close();
+        return $result;
+
+    }
+
+    public function searchByEmail($email)
+    {
+        $db = DBConnect::open();
+        $sql = 'SELECT id ,name ,email FROM user WHERE email LIKE :email';
+
+        $stm =$db->prepare($sql);
+
+        $stm->bindValue(":email",$email);
+        $stm->execute();
+        $result = $stm->fetchAll();
         DBConnect::Close();
         return $result;
     }

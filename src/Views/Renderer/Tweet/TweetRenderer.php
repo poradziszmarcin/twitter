@@ -18,16 +18,20 @@ class TweetRenderer implements RenderInterfaceWithObject
     public function render($tweets)
 
     {
-        $tweetForm = new TweetAddForm();
-        $tweetForm->render();
+//        $tweetForm = new TweetAddForm();
+//        $tweetForm->render();
         echo "<br>";
 
         if ($tweets == null) {
             echo "Cos tutaj pusto - dodaj jakiegos tweeta";
         } else {
+            $id = $this->getUserID();
+            $userDB = new UserDB();
+            $headerName = $userDB->getNameByID($id)["name"];
+            echo "<h3>$headerName</h3>";
             foreach ($tweets as $tweetFromDB) {
                 $userID = $tweetFromDB["userID"];
-                $userDB = new UserDB();
+
                 $userName = $userDB->getNameByID($userID)["name"];
                 $text = $tweetFromDB["text"];
                 $date = $tweetFromDB["date"];
@@ -71,6 +75,21 @@ class TweetRenderer implements RenderInterfaceWithObject
                 echo date("G:i d-n-o", $time);
                 break;
         }
-
     }
+
+    public function getUserID()
+    {
+        if (isset($_GET["id"]))
+        {
+            $id = $_GET["id"];
+        }
+
+        else
+        {
+            $id = $_COOKIE["userId"];
+        }
+
+        return $id;
+    }
+
 }

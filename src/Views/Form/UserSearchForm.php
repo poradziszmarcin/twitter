@@ -14,23 +14,31 @@ use Twitter\Views\Renderer\Interfaces\RenderInterface;
 class UserSearchForm implements RenderInterface
 {
     public $form = <<<'SEARCHFORM'
-        <form method="get" class="searchForm">
-             <br>
-             <label>
-                Haslo:
-                <input type="password" name ="password" class="password">  <br>
-                Powtorz haslo:
-                <input type="password" name ="password1">
-                <input name="user" value="search" type="hidden" >
-             </label>
-             <br>
-    <input type="submit" value="zapisz">
-        </form>
+        <form action="index.php" method="get">
+    <input name="user" value="search" type="hidden" >
+    <input type="text" name="searchInput">
+    <br>
+    <label>Nazwa
+            <input type="radio" name="searchBy" value="name">
+    </label>
+    <label>
+        Email
+        <input type="radio" name="searchBy" value="email">
+
+    </label>
+    <br>
+    <input type="submit" value="szukaj">
+</form>
 SEARCHFORM;
+
+
 
     public function render()
     {
-        // TODO: Implement render() method.
+        echo $this->form;
     }
+
+
+
 
 }
