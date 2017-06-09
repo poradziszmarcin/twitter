@@ -34,6 +34,7 @@ class WelcomeRenderer
     {
 
         $name = $_COOKIE["userName"];
+
         echo "<div class='welcomeUser'>";
             echo "<p>Witaj $name</p>";
         echo "</div>";
@@ -41,6 +42,8 @@ class WelcomeRenderer
         $menuRenderer->render();
         $controller = new BaseController();
         $controller->getInput();
+
+
     }
 
     static function renderNonLogged()

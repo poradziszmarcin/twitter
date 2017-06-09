@@ -90,3 +90,18 @@ li a{
 
 
 }
+
+.comment {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding: 8px;
+    border: none;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font: normal 16px/1 "Times New Roman", Times, serif;
+    color: black;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: rgba(0, 0, 0, 0.3);
+}

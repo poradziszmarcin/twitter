@@ -10,7 +10,9 @@ namespace Twitter\Views\Renderer\Tweet;
 
 use Twitter\Model\Classes\Tweet;
 use Twitter\Model\DBase\UserDB;
+use Twitter\Views\Form\CommentForm;
 use Twitter\Views\Form\TweetAddForm;
+use Twitter\Views\Renderer\Comment\CommentRenderer;
 use Twitter\Views\Renderer\Interfaces\RenderInterfaceWithObject;
 
 class TweetRenderer implements RenderInterfaceWithObject
@@ -18,8 +20,7 @@ class TweetRenderer implements RenderInterfaceWithObject
     public function render($tweets)
 
     {
-//        $tweetForm = new TweetAddForm();
-//        $tweetForm->render();
+
         echo "<br>";
 
         if ($tweets == null) {
@@ -43,6 +44,11 @@ class TweetRenderer implements RenderInterfaceWithObject
                 echo "<p class='tweetTime'>", $this->timeAgo($date), "<p>";
                 echo "</div>";
                 echo"<br>";
+                echo "<p>Komentarze</p>";
+                $commentRenderer = new CommentRenderer();
+                $commentRenderer->render($tweetFromDB["id"]);
+                $commentForm = new CommentForm();
+                $commentForm->render($tweetFromDB["id"]);
 
 
             }
@@ -67,11 +73,8 @@ class TweetRenderer implements RenderInterfaceWithObject
                 echo round($difference / 3600, 0), " hours ago";
                 break;
 
-            case ($difference >= 86400 && $difference < 864000):
-                echo round($difference / 86400, 0), " days ago";
-                break;
 
-            case ($difference >= 86400):
+            case ($difference >= 8640):
                 echo date("G:i d-n-o", $time);
                 break;
         }

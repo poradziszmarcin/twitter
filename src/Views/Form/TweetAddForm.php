@@ -18,7 +18,7 @@ class TweetAddForm implements RenderInterface
     
         <form method="post" >
              <p>Dodaj tweeta</p>
-             <textarea type="text" name="text" cols="5 rows =4"></textarea><br>
+             <textarea  name="text" cols="5 rows =40"></textarea><br>
              <input name="tweet" value="add" type="hidden">
              <input type="submit" value="tweetnij">
         

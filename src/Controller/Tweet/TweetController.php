@@ -18,7 +18,7 @@ class TweetController implements ClassesInterface
         if (isset($_POST["tweet"])==true)
         {
             if (UserVerify::verifyOperations()=="verified") {
-                $tweetPost = trim($_POST["tweet"]);
+                    $tweetPost = trim($_POST["tweet"]);
 
 
                 switch ($tweetPost) {

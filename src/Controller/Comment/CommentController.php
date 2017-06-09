@@ -8,6 +8,10 @@
 
 namespace Twitter\Controller\Comment;
 use Twitter\Controller\ClassesInterface;
+use Twitter\Model\Classes\Comment;
+use Twitter\Model\DBase\CommentDB;
+use Twitter\Model\Verification\UserVerify;
+
 
 class CommentController implements ClassesInterface
 {
@@ -15,27 +19,31 @@ class CommentController implements ClassesInterface
     public function postMethod()
     {
         if (isset($_POST["comment"]) == true) {
-            $tweetPost = trim($_POST["comment"]);
-            var_dump($tweetPost);
+            if (UserVerify::verifyOperations() == "verified") {
+                $commentPost = trim($_POST["comment"]);
 
-            switch ($tweetPost) {
 
-                case "edit":
-                    echo "edit comment";
-                    break;
+                switch ($commentPost) {
 
-                case "update":
-                    echo "update comment";
-                    break;
+                    case "add":
 
-                case "delete":
-                    echo "delete comment";
-                    break;
-                default:
+                        $tweetId = trim($_POST["tweetId"]);
+                        $userId = trim($_POST["userId"]);
+                        $text = trim($_POST["text"]);
+                        $comment = new Comment($tweetId, $userId, $text);
+                        $commentDB = new CommentDB();
+                        $commentDB->add($comment);
+                        header("Refresh:0");
 
-                    echo "wrong comment input";
+                        break;
+
+
+                    default:
+
+                        echo "wrong comment input";
+                }
+
             }
-
         }
 
     }

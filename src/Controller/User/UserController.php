@@ -80,7 +80,6 @@ class UserController implements ClassesInterface
                     $tweetForm->render();
                     $tweetRenderer = new TweetRenderer();
                     $tweetRenderer->render($tweets);
-//                    header('Location: ' . "index.php?user=view&id=" . $userId);
 
                     break;
 

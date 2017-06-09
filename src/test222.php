@@ -6,4 +6,4 @@
  * Time: 14:21
  */
 
-var_dump($_GET);
+var_dump(sha1(1234));
